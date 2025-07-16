@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<metadados xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="../.gradle/metadados.xsd">
+
+    <menu id="menu_GerenciaFretes" description="Gerencia Fretes" icon="/$ctx/assets/icon_gerencia_fretes.png">
+        <ui id="ui_GerenciaFretes" url="/$ctx/GerenciaFretes.xhtml5" description="GerenciaFretesHtml5"/>
+        <ui id="ui_ShowcaseHTML5" url="/$ctx/ShowcaseHTML5.xhtml5" description="ShowcaseHTML5"/>
+        <dynamicForm instance="GerenciaFretes" id="df_GerenciaFretes"  description="Gerencia Fretes"/>
+    </menu>
+
+
+</metadados>

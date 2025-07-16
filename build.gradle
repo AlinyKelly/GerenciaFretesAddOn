@@ -1,0 +1,30 @@
+
+buildscript {
+
+    repositories{
+        mavenLocal()
+        mavenCentral()
+        maven {
+            url = uri("https://artifacts-partners.sankhya.com.br/repository/maven-releases")
+        }
+    }
+
+    dependencies {
+        classpath "br.com.sankhya.studio:gradle-plugin:1+"
+    }
+}
+
+group = 'br.com.gerenciafretes.addon'
+version="1.0.0"
+description = "TREINAMENTO_UNIVERSIDADE"
+
+apply(plugin: "br.com.sankhya.addonstudio")
+snkmodule {
+    serverFolder = "${WILDFLY_HOME}"
+    plataformaMinima = "4.28"
+}
+
+addon {
+    appKey="cbad2745-5dcd-40e6-b46f-ac00aedcbf17"
+    parceiroNome = "BP CEARA - MATRIZ"
+}

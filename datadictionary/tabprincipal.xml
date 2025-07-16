@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<metadados xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="../.gradle/metadados.xsd">
+
+    <table name="TAB_PRINCIPAL" sequenceType="A" sequenceField="ID">
+        <description>Tab. Principal Gerenc. Fretes</description>
+        <primaryKey>
+            <field name="ID"/>
+        </primaryKey>
+        <instances>
+            <instance name="GerenciaFretes">
+                <description>Gerencia Fretes</description>
+                <relationShip>
+                    <relation entityName="GerenciaFretesDet" relation="OneToMany">
+                        <expression>@ref-param[description=@res:Gerencia Fretes Detalhes]</expression>
+                        <fields>
+                            <field localName="ID" targetName="IDPAI"/>
+                        </fields>
+                    </relation>
+                </relationShip>
+            </instance>
+        </instances>
+        <fields>
+            <field name="ID" dataType="INTEIRO" allowSearch="S" visibleOnSearch="S">
+                <description>Identificação</description>
+            </field>
+            <field name="DESCRICAO" dataType="TEXTO" allowSearch="S" visibleOnSearch="S" UITabName="__main">
+                <description>Descrição</description>
+            </field>
+            <field name="ATIVO" dataType="CHECKBOX" allowSearch="S" visibleOnSearch="S" >
+                <description>Ativo</description>
+            </field>
+            <field name="TIPOVEICULO" dataType="LISTA" allowSearch="S" visibleOnSearch="S" >
+                <description>Tipo veículo</description>
+                <fieldOptions>
+                    <option value="A">Automóvel</option>
+                    <option value="C">Caminhão</option>
+                    <option value="M">Moto</option>
+                </fieldOptions>
+            </field>
+            <field name="CODEMP" dataType="PESQUISA" targetInstance="Empresa" targetField="CODEMP" targetType="INTEIRO"  allowSearch="S" visibleOnSearch="S" UITabName="Pessoas" >
+                <description>Empresa</description>
+            </field>
+            <field name="CODPARC" dataType="PESQUISA" targetInstance="Parceiro" targetField="CODPARC" targetType="INTEIRO"  allowSearch="S" visibleOnSearch="S" UITabName="Pessoas" >
+                <description>Parceiro</description>
+            </field>
+            <field name="NOME" dataType="TEXTO" allowSearch="S" visibleOnSearch="S" readOnly="S">
+                <description>Nome</description>
+            </field>
+            <field name="DTALTER" dataType="DATA" allowSearch="S" visibleOnSearch="S" UIGroupName="Log" readOnly="S" order="8">
+                <description>Dt. Alteração</description>
+            </field>
+            <field name="OBSERVACAO" dataType="CAIXA_TEXTO" allowSearch="S" visibleOnSearch="S" UIGroupName="Log" order="9">
+                <description>Observação</description>
+            </field>
+        </fields>
+    </table>
+
+
+</metadados>

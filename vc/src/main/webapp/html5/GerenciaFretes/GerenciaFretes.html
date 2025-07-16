@@ -1,0 +1,16 @@
+<sk-application ng-controller="GerenciaFretesController as ctrl" class="GerenciaFretes">
+    <sk-dynaform sk-entity-name="GerenciaFretes"
+                 sk-custom-tabs-loader="ctrl.customTabsLoader(entityName)" 
+                 sk-dynaform-interceptor="ctrl"
+                 sk-on-dynaform-loaded="ctrl.onDynaformLoaded(dynaform, dataset)">
+        
+        <dynaform-gerencia-fretes-det>
+            <sk-right-top-bar>
+                <button primary ng-click="ctrl.inserirFrete()">Inserir Frete</button>
+                <button info ng-click="ctrl.dividirValor()">Dividir Valor de Frete</button>
+                <button warning ng-click="ctrl.duplicarFrete()">Duplicar Frete</button>
+            </sk-right-top-bar>
+        </dynaform-gerencia-fretes-det>
+
+    </sk-dynaform>
+</sk-application>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<scripts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../.gradle/scripts.xsd">
+    <sql nomeTabela="TAB_PRINCIPAL" ordem="1" executar="SE_NAO_EXISTIR" tipoObjeto="TABLE" nomeObjeto="TAB_PRINCIPAL">
+        <oracle>
+            CREATE TABLE TAB_PRINCIPAL(
+            ID NUMBER(10) PRIMARY KEY,
+            DESCRICAO VARCHAR2(20),
+            ATIVO CHAR(1),
+            DTALTER DATE,
+            TIPOVEICULO CHAR(2),
+            CODEMP NUMBER(10),
+            CODPARC NUMBER(10),
+            NOME VARCHAR2(50),
+            OBSERVACAO CLOB,
+            CONSTRAINT FK_PRINC_EMP FOREIGN KEY (CODEMP) REFERENCES TSIEMP(CODEMP),
+            CONSTRAINT FK_PRINC_PAR FOREIGN KEY (CODPARC) REFERENCES TGFPAR(CODPARC)
+            )
+        </oracle>
+        <mssql>
+            CREATE TABLE TAB_PRINCIPAL (
+            ID INT PRIMARY KEY,
+            DESCRICAO VARCHAR(20),
+            ATIVO CHAR(1),
+            DTALTER DATE,
+            TIPOVEICULO CHAR(2),
+            CODEMP INT,
+            CODPARC INT,
+            NOME VARCHAR(50),
+            OBSERVACAO VARCHAR(MAX),
+            CONSTRAINT FK_PRINC_EMP FOREIGN KEY (CODEMP) REFERENCES TSIEMP(CODEMP),
+            CONSTRAINT FK_PRINC_PAR FOREIGN KEY (CODPARC) REFERENCES TGFPAR(CODPARC)
+            )
+        </mssql>
+    </sql>
+    <sql nomeTabela="TAB_DETALHE" ordem="2" executar="SE_NAO_EXISTIR" tipoObjeto="TABLE" nomeObjeto="TAB_DETALHE">
+        <oracle>
+            CREATE TABLE TAB_DETALHE(
+            ID NUMBER(10),
+            IDPAI NUMBER(10),
+            DESCRICAO VARCHAR2(200),
+            VALOR FLOAT(126),
+            CONSTRAINT PK_DETALHE PRIMARY KEY (ID, IDPAI)
+            )
+        </oracle>
+        <mssql>
+            CREATE TABLE TAB_DETALHE (
+            ID INT,
+            IDPAI INT,
+            DESCRICAO VARCHAR(200),
+            VALOR FLOAT,
+            CONSTRAINT PK_DETALHE PRIMARY KEY (ID, IDPAI)
+            )
+        </mssql>
+    </sql>
+</scripts>

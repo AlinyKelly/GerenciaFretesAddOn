@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE parameters >
+<parameters group-name="akfs.:gerenciafretes" data-source="br.com.sankhya.modelcore.util.MGECoreParameter" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:noNamespaceSchemaLocation="../../../../../.gradle/parameters.xsd">
+
+    <parameter name="addon.mascara.GERVLRFRETE" key="GERVLRFRETE" type="number" default="25" cacheable="true" required="false" module="E" description="[GERENCIAFRETE] Vlr Frete p/ lançamento"/>
+
+    <parameter name="addon.mascara.GERFINMOD" key="GERFINMOD" type="integer" default="0" cacheable="true" required="false" module="E" description="[GERENCIAFRETE] Financeiro Modelo para lançamento"/>
+
+</parameters>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listeners>
+<!--
+    'entityName' é o nome da Entidade. É aqui que você define de qual entidade você ouvirá os eventos. Neste exemplo estamos ouvindo 'ItemNota'.
+    O conteúdo de <listener> é o full qualified name da classe, ou seja, pacote + classe.
+-->
+    <listener entityName="GerenciaFretes">br.com.gerenciafretes.addon.exemplos.listeners.GerenciaFretesListener</listener>
+
+</listeners>

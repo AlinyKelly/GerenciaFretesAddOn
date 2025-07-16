@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<metadados xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="../.gradle/metadados.xsd">
+
+    <table name="TAB_DETALHE" sequenceType="A" sequenceField="ID">
+        <description>Detalhe de Gerencia Fretes</description>
+        <primaryKey>
+            <field name="ID"/>
+            <field name="IDPAI"/>
+        </primaryKey>
+        <instances>
+            <instance name="GerenciaFretesDet">
+                <description>Gerencia Fretes Detalhe</description>
+            </instance>
+        </instances>
+        <fields>
+            <field name="ID" dataType="INTEIRO" allowSearch="S" visibleOnSearch="S">
+                <description>Identificação</description>
+            </field>
+            <field name="IDPAI" dataType="INTEIRO" allowSearch="S" visibleOnSearch="S">
+                <description>Código Pai</description>
+            </field>
+            <field name="DESCRICAO" dataType="TEXTO" allowSearch="S" visibleOnSearch="S" UITabName="__main">
+                <description>Descrição</description>
+            </field>
+            <field name="VALOR" dataType="DECIMAL" allowSearch="S" visibleOnSearch="S">
+                <description>Vlr. Frete</description>
+            </field>
+        </fields>
+    </table>
+
+
+</metadados>
