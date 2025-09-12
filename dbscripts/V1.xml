@@ -53,4 +53,34 @@
             )
         </mssql>
     </sql>
+    <sql nomeTabela="HISTPESAGEMMAT" ordem="3" executar="SE_NAO_EXISTIR" tipoObjeto="TABLE" nomeObjeto="HISTPESAGEMMAT">
+        <oracle>
+            CREATE TABLE HISTPESAGEMMAT(
+            CODHIST NUMBER(10) PRIMARY KEY,
+            NROOP NUMBER(10),
+            CODMATERIAL NUMBER(10),
+            CODPRODFINAL NUMBER(10),
+            QTDREQUISITADA FLOAT(126),
+            QTDPESADA FLOAT(126),
+            STATUS CHAR(2),
+            CODUSU NUMBER(10),
+            DATAPESAGEM DATE,
+            CONSTRAINT FK_MATERIAL_PRO FOREIGN KEY (CODMATERIAL) REFERENCES TGFPRO(CODPROD)
+            )
+        </oracle>
+        <mssql>
+            CREATE TABLE HISTPESAGEMMAT (
+            CODHIST INT PRIMARY KEY,
+            NROOP INT,
+            CODMATERIAL INT,
+            CODPRODFINAL INT,
+            QTDREQUISITADA FLOAT,
+            QTDPESADA FLOAT,
+            STATUS CHAR(2),
+            CODUSU INT,
+            DATAPESAGEM DATETIME,
+            CONSTRAINT FK_MATERIAL_PRO FOREIGN KEY (CODMATERIAL) REFERENCES TGFPRO(CODPROD)
+            )
+        </mssql>
+    </sql>
 </scripts>

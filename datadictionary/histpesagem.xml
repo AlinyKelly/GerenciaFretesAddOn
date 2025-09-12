@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<metadados xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="../.gradle/metadados.xsd">
+
+    <table name="HISTPESAGEMMAT" sequenceType="A" sequenceField="CODHIST">
+        <description>Histórico de Pesagem de Materiais</description>
+        <primaryKey>
+            <field name="CODHIST"/>
+        </primaryKey>
+        <instances>
+            <instance name="HistPesagemMateriais">
+                <description>Histórico de Pesagem de Materiais</description>
+            </instance>
+        </instances>
+        <fields>
+            <field name="CODHIST" dataType="INTEIRO" allowSearch="S" visibleOnSearch="S">
+                <description>Cód. Histórico</description>
+            </field>
+            <field name="NROOP" dataType="INTEIRO" allowSearch="S" visibleOnSearch="S">
+                <description>Nro. OP</description>
+            </field>
+            <field name="CODMATERIAL" dataType="PESQUISA" targetInstance="Produto" targetField="CODPROD" targetType="INTEIRO" allowSearch="S" visibleOnSearch="S" >
+                <description>Material</description>
+            </field>
+            <field name="CODPRODFINAL" dataType="INTEIRO" allowSearch="S" visibleOnSearch="S" >
+                <description>Produto Acabado</description>
+            </field>
+            <field name="QTDREQUISITADA" dataType="DECIMAL" allowSearch="S" visibleOnSearch="S">
+                <description>Qtd. Requisitada</description>
+            </field>
+            <field name="QTDPESADA" dataType="DECIMAL" allowSearch="S" visibleOnSearch="S">
+                <description>Qtd. Pesada</description>
+            </field>
+            <field name="STATUS" dataType="LISTA" allowSearch="S" visibleOnSearch="S" >
+                <description>Status</description>
+                <fieldOptions>
+                    <option value="A">Aguardando Pesagem</option>
+                    <option value="C">Concluído</option>
+                </fieldOptions>
+            </field>
+            <field name="CODUSU" dataType="PESQUISA" targetInstance="Usuario" targetField="CODUSU" targetType="INTEIRO"  allowSearch="S" visibleOnSearch="S" >
+                <description>Usuário da Pesagem</description>
+            </field>
+            <field name="DATAPESAGEM" dataType="DATA_HORA" allowSearch="S" visibleOnSearch="S">
+                <description>Dt./Hr. Pesagem</description>
+            </field>
+        </fields>
+    </table>
+
+
+</metadados>

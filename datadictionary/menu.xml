@@ -5,7 +5,10 @@
     <menu id="menu_GerenciaFretes" description="Gerencia Fretes" icon="/$ctx/assets/icon_gerencia_fretes.png">
         <ui id="ui_GerenciaFretes" url="/$ctx/GerenciaFretes.xhtml5" description="GerenciaFretesHtml5"/>
         <ui id="ui_ShowcaseHTML5" url="/$ctx/ShowcaseHTML5.xhtml5" description="ShowcaseHTML5"/>
+        <ui id="ui_PesagemMateriais" url="/$ctx/PesagemMateriais.xhtml5" description="Pesagem de Materiais (OP) copia"/>
+        <ui id="PesagemMateriaisOP" url="/$ctx/PesagemMateriaisOP.xhtml5" description="Pesagem de Materiais OP"/>
         <dynamicForm instance="GerenciaFretes" id="df_GerenciaFretes"  description="Gerencia Fretes"/>
+        <dynamicForm instance="HistPesagemMateriais" id="df_HistPesagemMateriais"  description="Histórico Pesagem de Materiais (OP)"/>
     </menu>
 
 

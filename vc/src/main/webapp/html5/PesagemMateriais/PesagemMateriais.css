@@ -1,0 +1,85 @@
+.well {
+    padding: 0.5% !important;
+    margin-left: 0.5% !important;
+    margin-right: 0.5% !important;
+    margin-top: 0.3% !important;
+    margin-bottom: 0.3% !important;
+    background-color: #eee !important;
+    border: 0.1% solid #e3e3e3 !important;
+}
+
+.fields-well {
+    padding: 0.5% !important;
+    margin-left: 0.5% !important;
+    margin-right: 0.5% !important;
+    margin-top: 0.3% !important;
+    margin-bottom: 0.3% !important;
+    background-color: #eee !important;
+    border: 0.1% solid #e3e3e3 !important;
+}
+
+.space-left {
+	margin-left: 10px !important;
+}
+
+.space-right-lote {
+	margin-right: 8px !important;
+}
+
+.input-large {
+    padding:1px 3px !important;
+    font-size: 18px !important;
+    text-align: right !important;
+}
+
+.inputs-align-right {
+    padding:1px 3px !important;
+    font-size: 16px !important;
+    text-align: right !important;
+    background-color: #fbfbfb !important;
+    border: 1px solid #d8d8d8 !important;
+    color: #969696 !important;
+}
+
+.inputs-align-left {
+    padding:1px 3px !important;
+    font-size: 16px !important;
+    text-align: left !important;
+    background-color: #fbfbfb !important;
+    border: 1px solid #d8d8d8 !important;
+    color: #969696 !important;
+}
+
+.fontsize-btn-main {
+    font-size: 16px !important;
+}
+
+.margin-top-main {
+    margin-top: 5px !important;
+}
+
+.boxBalanca {
+    padding: 5px;
+    background-color: #fbfbfb !important;
+    border:#d8d8d8 !important;
+    align-items: right;
+    margin-top: 8px;
+}
+
+.border-btn {
+    border: 1px solid #c2c8cc !important;
+}
+
+.nav-abas .tab-show-all-button{
+    display: none;
+}
+
+.nav-abas .tabnavigator-viewport{
+    margin-left: 3px;
+}
+
+#page, #pageWrapper {
+   width: 100%;
+   min-height: 97.8%;
+   height: 97.8% !important;
+}

@@ -2,10 +2,25 @@
    "generator-sankhya": {
       "promptValues": {
          "interceptorsDynaform": [{
+            "description": "Interceptor de metados (interceptFieldMetadata)",
+            "name": "interceptFieldMetadata",
+            "arguments": "fieldMetadata, dataset, dynaform",
+            "body": ""
+         }, {
+            "description": "Interceptor do dataset (interceptDataset)",
+            "name": "interceptDataset",
+            "arguments": "dynaform, dataset",
+            "body": ""
+         }, {
             "description": "Interceptor do dynaform (interceptDynaform)",
             "name": "interceptDynaform",
             "arguments": "dynaform",
             "body": ""
+         }, {
+            "description": "Campos a serem apresentados no dynaform (acceptField)",
+            "name": "acceptField",
+            "arguments": "fieldMD, dynaform, dataset",
+            "body": "return true;"
          }],
          "interceptorsDataset": [{
             "description": "Salvamento de dados (dataSaved)",
