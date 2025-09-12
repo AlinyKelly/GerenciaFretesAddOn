@@ -1,0 +1,798 @@
+<sk-application ng-controller="PesagemMateriaisOPController as ctrl" sk-body-overflow="hidden" flex="" layout="column"
+                class="ng-scope" creation-complete="ctrl.init()">
+
+    <sk-dataset id="dsHistPesagemMateriais" sk-standalone="" entity-name="HistPesagemMateriais" order-by="CODHIST DESC"
+                sk-dataset-created="ctrl.onDatasetHistPesagemMateriaisCreated(dataset)"
+                sk-restrict-key-handlers="[KeyboardEvents.DELETE_KEY, KeyboardEvents.ADD_KEY, KeyboardEvents.SAVE_KEY, KeyboardEvents.CHANGE_FACE_KEY]"
+                class="ng-isolate-scope">
+    </sk-dataset>
+
+    <sk-vbox flex="" layout="column">
+        <!-- Layout Cabecalho -->
+        <sk-vbox flex="25" sk-margin-left="5px" style="min-height: 200px; margin-left: 5px;" layout="column">
+            <!-- Tela OP -->
+            <div class="well">
+                <sk-hbox gap="3" ng-if="ctrl.isTelaPesagemMateriaisOP" layout="row" class="ng-scope"
+                         style="margin-right: 1.5px;">
+                    <label sk-margin="5px" sk-font-size="18px" sk-translate=""
+                           style="font-size: 18px; margin: 5px 1.5px 5px 5px;">Nro. OP:</label>
+                    <input id="inputNroOP" onkeyup="this.value=this.value.replace(/[^\d]/,'')" autocomplete="off"
+                           autofocus="" type="text" ng-model="ctrl.inputNroOP" ng-keypress="runScript($event)"
+                           class="input-large ng-pristine ng-untouched ng-valid ng-empty"
+                           style="margin-right: 1.5px; margin-left: 1.5px;">
+                    <button class="btn btn-primary space-left fontsize-btn-main" sk-i18n=""
+                            ng-click="ctrl.eventBtnSelecinaOPandIDvolume()" tooltip-placement="bottom"
+                            style="margin-left: 1.5px;">[ Enter ] Selecionar
+                    </button>
+                </sk-hbox>
+
+                <!-- Tela ID Volume -->
+                <sk-hbox layout-align="end end" flex="" layout="row" style="margin-left: 1.5px;">
+                    <button class="btn space-left fontsize-btn-main border-btn" sk-i18n=""
+                            ng-click="ctrl.eventBtnConfiguracoes()" tooltip-placement="bottom">
+                        <sk-icon style="font-size: 20px;" font-icon="cogwheel"
+                                 class="ng-isolate-scope no-text">
+                            <span ng-disabled="!enabled"
+                                  ng-show="visible !== false"
+                                  ng-class="[prefixIcon, prefixIcon + '-' + fontIcon, skClass]"
+                                  class="glyphicons glyphicons-cogwheel"></span>
+                        </sk-icon>
+                    </button>
+                </sk-hbox>
+            </div>
+
+            <div flex="" class="well">
+                <sk-hbox layout="row">
+                    <sk-hbox flex="" gap="3" sk-padding-top="5px" layout="row" style="padding-top: 5px;">
+                        <sk-hbox flex="20" gap="3" layout="row" style="margin-right: 1.5px;">
+                            <label class="form-input-label" sk-margin="0.5%" sk-font-size="16px" sk-translate=""
+                                   style="font-size: 16px; margin: 0.5%;">Nro. OP:</label>
+                        </sk-hbox>
+                        <sk-hbox flex="" gap="3" layout="row" style="margin-left: 1.5px;">
+                            <input disabled="" type="text" ng-model="ctrl.inputOP"
+                                   class="inputs-align-right ng-pristine ng-untouched ng-valid ng-empty">
+                        </sk-hbox>
+                    </sk-hbox>
+
+                    <sk-hbox flex="" gap="3" sk-padding-top="5px" layout="row" style="padding-top: 5px;">
+                        <sk-hbox flex="20" gap="3" layout="row" style="margin-right: 1.5px;">
+                            <label class="form-input-label" sk-margin="0.5%" sk-font-size="16px" sk-translate=""
+                                   style="font-size: 16px; margin: 0.5%;">Data:</label>
+                        </sk-hbox>
+                        <sk-hbox flex="60" gap="3" layout="row" style="margin-left: 1.5px;">
+                            <input flex="" disabled="" type="text" ng-model="ctrl.inputAtividade"
+                                   class="inputs-align-left ng-pristine ng-untouched ng-valid ng-empty">
+                        </sk-hbox>
+                    </sk-hbox>
+                </sk-hbox>
+
+                <sk-hbox class="margin-top-main" layout="row">
+                    <sk-hbox flex="" gap="3" sk-padding-top="5px" layout="row" style="padding-top: 5px;">
+                        <sk-hbox flex="20" gap="3" layout="row" style="margin-right: 1.5px;">
+                            <label class="form-input-label" sk-margin="0.5%" sk-font-size="16px" sk-translate=""
+                                   style="font-size: 16px; margin: 0.5%;">Produto:</label>
+                        </sk-hbox>
+                        <sk-hbox flex="60" gap="3" layout="row" style="margin-left: 1.5px;">
+                            <input flex="" disabled="" type="text" ng-model="ctrl.inputProduto"
+                                   class="inputs-align-left ng-pristine ng-untouched ng-valid ng-empty">
+                        </sk-hbox>
+                    </sk-hbox>
+                </sk-hbox>
+            </div>
+
+        </sk-vbox>
+
+        <sk-vbox sk-padding-right="5px" sk-padding-left="5px"
+                 style="min-height: 40px; padding-left: 5px; padding-right: 5px;" layout="column">
+            <sk-hbox sk-margin-left="0.5%" layout="row" style="margin-left: 0.5%;">
+                <sk-hbox flex="" gap="5" layout="row">
+                    <sk-grid-config sk-padding-top="7px"
+                                    sk-config-name="gerenciafretes.PesagemMateriaisOP.GridHistPesagemMateriais"
+                                    class="ng-isolate-scope" style="padding-top: 7px;">
+                        <div>
+                            <button default="" small="" ng-click="openGridconfig()" sk-i18n=""
+                                    tooltip="Configurar grade" ng-disabled="!allowGridEdit" tooltip-placement="bottom"
+                                    class="btn btn-default btn-sk-sm">
+                                <sk-icon font-icon="cogwheel"
+                                         class="ng-isolate-scope no-text">
+                                    <span ng-disabled="!enabled"
+                                          ng-show="visible !== false"
+                                          ng-class="[prefixIcon, prefixIcon + '-' + fontIcon, skClass]"
+                                          class="glyphicons glyphicons-cogwheel"></span>
+                                </sk-icon>
+                            </button>
+                        </div>
+                    </sk-grid-config>
+                </sk-hbox>
+                <sk-hbox flex="" gap="5" layout-align="center" layout="row">
+                    <label sk-margin="0.5%" sk-padding-top="7px" sk-font-size="20px" sk-translate=""
+                           style="font-size: 20px; margin: 0.5%; padding-top: 7px;">Materiais da OP</label>
+                </sk-hbox>
+                <sk-hbox flex="" gap="5" layout-align="end end" layout="row">
+                    <sk-rows-counter sk-margin-bottom="0.5%" sk-dataset="ctrl.dsHistPesagemMateriais"
+                                     class="ng-isolate-scope sk-rows-counter"
+                                     style="margin-bottom: 0.5%; margin-left: 2.5px;">
+                        <div class="rows-counter-div" ng-class="linesLimitAlertStyle" ng-click="onClick()"
+                             tooltip="Nenhum registro" tooltip-placement="left">
+                            <span ng-bind="count"
+                                  class="ng-binding">0</span>
+                        </div>
+                    </sk-rows-counter>
+                </sk-hbox>
+            </sk-hbox>
+        </sk-vbox>
+
+        <!-- Layout Grade -->
+        <sk-vbox flex="" sk-padding-right="5px" sk-padding-left="5px" layout="column"
+                 style="padding-left: 5px; padding-right: 5px;">
+            <sk-hbox flex="" sk-margin-left="0.5%" sk-margin-top="0.5%" sk-margin-bottom="0.5%" layout="row"
+                     style="margin-bottom: 0.5%; margin-left: 0.5%; margin-top: 0.5%;">
+                <sk-datagrid sk-dataset="ctrl.dsHistPesagemMateriais"
+                             sk-on-datagrid-loaded="ctrl.onDatagridLoaded(datagrid)"
+                             sk-grid-config="gerenciafretes.PesagemMateriaisOP.GridHistPesagemMateriais"
+                             sk-allow-multiple-selection="true" sk-editable="true" sk-hide-cbx-column="true"
+                             sk-focus-to-after-refresh="inputIdVolume" sk-datagrid-interceptor="ctrl" layout="" flex=""
+                             controller-name="SkAgGridController" class="ng-isolate-scope"
+                             id="datagrid-id-ag-grid-container-15-3754">
+                    <div class="sk-aggrid" id="ag-grid-container-15-3754-root">
+                        <div class="grid-menu">
+                            <div class="ui-grid-menu-button ag-grid-menu ng-scope" ng-click="toggleMenuGrid()"
+                                 ng-if="enableGridMenu" id="gridMenu">
+                                <div class="ui-grid-icon-container">
+                                    <sk-icon sk-i18n="" font-icon="menu-hamburger"
+                                             tooltip="Opções da Grade" tooltip-placement="left"
+                                             tooltip-append-to-body="true"
+                                             id="iconGridMenu" class="ng-isolate-scope">
+                                        <span ng-disabled="!enabled"
+                                              ng-show="visible !== false"
+                                              ng-class="[prefixIcon, prefixIcon + '-' + fontIcon, skClass]"
+                                              class="glyphicons glyphicons-menu-hamburger">
+
+                                        </span>
+                                    </sk-icon>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="ag-grid-container-15-3754" ag-grid="gridOptions" flex=""
+                             class="ag-theme-balham sk-datagrid-container ng-scope">
+                            <div class="ag-root-wrapper ag-layout-normal ag-ltr">
+                                <!--AG-GRID-HEADER-DROP-ZONES-->
+                                <div>
+                                    <div
+                                        class="ag-column-drop ag-unselectable ag-column-drop-horizontal ag-column-drop-row-group ag-hidden">
+                                        <div><span class="ag-icon ag-icon-group ag-column-drop-icon ag-faded"
+                                                   unselectable="on"></span></div>
+                                        <span
+                                            class="ag-column-drop-empty-message">Arraste as colunas até aqui para criar
+                                            grupos</span>
+                                        <div class="ag-column-drop-list"></div>
+                                    </div>
+                                    <div
+                                        class="ag-column-drop ag-unselectable ag-column-drop-horizontal ag-column-drop-pivot ag-hidden">
+                                        <div><span class="ag-icon ag-icon-pivot ag-column-drop-icon ag-faded"
+                                                   unselectable="on"></span></div>
+                                        <span
+                                            class="ag-column-drop-empty-message">Arraste as colunas até aqui para criar
+                                            grupos</span>
+                                        <div class="ag-column-drop-list"></div>
+                                    </div>
+                                </div>
+                                <div class="ag-root-wrapper-body ag-layout-normal" ref="rootWrapperBody">
+                                    <!--AG-GRID-COMP-->
+                                    <div class="ag-root ag-unselectable ag-layout-normal" role="grid" unselectable="on"
+                                         ref="gridPanel" aria-rowcount="1" aria-colcount="5">
+                                        <!--AG-HEADER-ROOT-->
+                                        <div class="ag-header ag-pivot-off" role="presentation" ref="headerRoot"
+                                             unselectable="on" style="height: 26px; min-height: 26px;">
+                                            <div class="ag-pinned-left-header ag-hidden" ref="ePinnedLeftHeader"
+                                                 role="presentation"
+                                                 style="width: 0px; max-width: 0px; min-width: 0px;">
+                                                <div class="ag-header-row" role="row" aria-rowindex="1"
+                                                     style="top: 0px; height: 25px; width: 0px;"></div>
+                                            </div>
+                                            <div class="ag-header-viewport" ref="eHeaderViewport" role="presentation">
+                                                <div class="ag-header-container" ref="eHeaderContainer" role="rowgroup"
+                                                     style="width: 600px; transform: translateX(0px);">
+                                                    <div class="ag-header-row" role="row" aria-rowindex="1"
+                                                         style="top: 0px; height: 25px; width: 600px;">
+                                                        <div class="ag-header-cell ag-header-cell-sortable"
+                                                             role="presentation" unselectable="on" col-id="ID"
+                                                             style="width: 126px; left: 0px;">
+                                                            <div ref="eResize" class="ag-header-cell-resize"
+                                                                 role="presentation"></div> <!--AG-CHECKBOX-->
+                                                            <div
+                                                                class="ag-header-select-all ag-labeled ag-label-align-right ag-checkbox ag-hidden"
+                                                                role="presentation" ref="cbSelectAll">
+                                                                <label ref="eLabel" class="ag-hidden"></label>
+                                                                <div ref="eWrapper" class="ag-wrapper ag-input-wrapper"
+                                                                     role="presentation">
+                                                                    <input ref="eInput" type="checkbox"
+                                                                           class="ag-hidden">
+                                                                    <div><span
+                                                                        class="glyphicons glyphicons-unchecked sk-check-box"></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="ag-cell-label-container ag-header-cell-sorted-none"
+                                                                role="presentation"> <span ref="eMenu"
+                                                                                           class="ag-header-icon ag-header-cell-menu-button"
+                                                                                           style="opacity: 0; transition: opacity 0.2s, border 0.2s;"><span
+                                                                class="ag-icon ag-icon-menu"
+                                                                unselectable="on"></span></span>
+                                                                <div ref="eLabel" class="ag-header-cell-label"
+                                                                     role="presentation"> <span ref="eSortAsc"
+                                                                                                class="sk-col-orderned-asc ag-hidden"><span></span></span>
+                                                                    <span ref="eSortDesc"
+                                                                          class="sk-col-orderned-desc ag-hidden"><span></span></span>
+                                                                    <span ref="eSortNone"
+                                                                          class="ag-header-icon ag-sort-none-icon ag-hidden"><span
+                                                                        class="ag-icon ag-icon-none"
+                                                                        unselectable="on"></span></span> <span
+                                                                        ref="eText"
+                                                                        class="ag-header-cell-text header-number"
+                                                                        role="columnheader"
+                                                                        style="width: calc(100% - 4px); display: block; font-size: [font_style];"
+                                                                        aria-colindex="1">ID Volume</span> <span
+                                                                        ref="eFilter"
+                                                                        class="ag-header-icon ag-filter-icon ag-hidden"><span
+                                                                        class="ag-icon ag-icon-filter"
+                                                                        unselectable="on"></span></span> <span
+                                                                        ref="skFilter" class="ag-header-icon"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="ag-header-cell ag-header-cell-sortable"
+                                                             role="presentation" unselectable="on"
+                                                             col-id="Produto.DESCRPROD"
+                                                             style="width: 126px; left: 126px;">
+                                                            <div ref="eResize" class="ag-header-cell-resize"
+                                                                 role="presentation"></div> <!--AG-CHECKBOX-->
+                                                            <div
+                                                                class="ag-header-select-all ag-labeled ag-label-align-right ag-checkbox ag-hidden"
+                                                                role="presentation" ref="cbSelectAll">
+                                                                <label ref="eLabel" class="ag-hidden"></label>
+                                                                <div ref="eWrapper" class="ag-wrapper ag-input-wrapper"
+                                                                     role="presentation">
+                                                                    <input ref="eInput" type="checkbox"
+                                                                           class="ag-hidden">
+                                                                    <div><span
+                                                                        class="glyphicons glyphicons-unchecked sk-check-box"></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="ag-cell-label-container ag-header-cell-sorted-none"
+                                                                role="presentation">
+                                                                <span ref="eMenu"
+                                                                      class="ag-header-icon ag-header-cell-menu-button"
+                                                                      style="opacity: 0; transition: opacity 0.2s, border 0.2s;">
+                                                                <span
+                                                                    class="ag-icon ag-icon-menu"
+                                                                    unselectable="on"></span>
+                                                            </span>
+                                                                <div ref="eLabel" class="ag-header-cell-label"
+                                                                     role="presentation">
+                                                                    <span ref="eSortAsc"
+                                                                          class="sk-col-orderned-asc ag-hidden">
+                                                                        <span></span>
+                                                                    </span>
+                                                                    <span ref="eSortDesc"
+                                                                          class="sk-col-orderned-desc ag-hidden">
+                                                                        <span></span>
+                                                                    </span>
+                                                                    <span ref="eSortNone"
+                                                                          class="ag-header-icon ag-sort-none-icon ag-hidden">
+                                                                        <span
+                                                                            class="ag-icon ag-icon-none"
+                                                                            unselectable="on"></span>
+                                                                    </span>
+                                                                    <span
+                                                                        ref="eText" class="ag-header-cell-text "
+                                                                        role="columnheader"
+                                                                        style="width: calc(100% - 4px); display: block; font-size: [font_style];"
+                                                                        aria-colindex="2">Descrição</span>
+                                                                    <span
+                                                                        ref="eFilter"
+                                                                        class="ag-header-icon ag-filter-icon ag-hidden"><span
+                                                                        class="ag-icon ag-icon-filter"
+                                                                        unselectable="on"></span></span>
+                                                                    <span
+                                                                        ref="skFilter" class="ag-header-icon"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="ag-header-cell ag-header-cell-sortable"
+                                                             role="presentation" unselectable="on" col-id="PESOBRUTO"
+                                                             style="width: 140px; left: 252px;">
+                                                            <div ref="eResize" class="ag-header-cell-resize"
+                                                                 role="presentation">
+                                                            </div>
+                                                            <!--AG-CHECKBOX-->
+                                                            <div
+                                                                class="ag-header-select-all ag-labeled ag-label-align-right ag-checkbox ag-hidden"
+                                                                role="presentation" ref="cbSelectAll">
+                                                                <label ref="eLabel" class="ag-hidden"></label>
+                                                                <div ref="eWrapper" class="ag-wrapper ag-input-wrapper"
+                                                                     role="presentation">
+                                                                    <input ref="eInput" type="checkbox"
+                                                                           class="ag-hidden">
+                                                                    <div>
+                                                                        <span
+                                                                            class="glyphicons glyphicons-unchecked sk-check-box">
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="ag-cell-label-container ag-header-cell-sorted-none"
+                                                                role="presentation">
+                                                                <span ref="eMenu"
+                                                                      class="ag-header-icon ag-header-cell-menu-button"
+                                                                      style="opacity: 0; transition: opacity 0.2s, border 0.2s;">
+                                                                    <span
+                                                                        class="ag-icon ag-icon-menu"
+                                                                        unselectable="on"></span>
+                                                                </span>
+                                                                <div ref="eLabel" class="ag-header-cell-label"
+                                                                     role="presentation">
+                                                                    <span ref="eSortAsc"
+                                                                          class="sk-col-orderned-asc ag-hidden">
+                                                                        <span>
+                                                                    </span>
+                                                                    </span>
+                                                                    <span ref="eSortDesc"
+                                                                          class="sk-col-orderned-desc ag-hidden">
+                                                                        <span></span>
+                                                                    </span>
+                                                                    <span ref="eSortNone"
+                                                                          class="ag-header-icon ag-sort-none-icon ag-hidden">
+                                                                        <span
+                                                                            class="ag-icon ag-icon-none"
+                                                                            unselectable="on"></span>
+                                                                    </span>
+                                                                    <span
+                                                                        ref="eText"
+                                                                        class="ag-header-cell-text header-number"
+                                                                        role="columnheader"
+                                                                        style="width: calc(100% - 4px); display: block; font-size: [font_style];"
+                                                                        aria-colindex="3">Peso Bruto</span>
+                                                                    <span
+                                                                        ref="eFilter"
+                                                                        class="ag-header-icon ag-filter-icon ag-hidden">
+                                                                        <span
+                                                                            class="ag-icon ag-icon-filter"
+                                                                            unselectable="on">
+                                                                        </span>
+                                                                    </span>
+                                                                    <span
+                                                                        ref="skFilter" class="ag-header-icon"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="ag-header-cell ag-header-cell-sortable"
+                                                             role="presentation" unselectable="on" col-id="PESOLIQ"
+                                                             style="width: 108px; left: 392px;">
+                                                            <div ref="eResize" class="ag-header-cell-resize"
+                                                                 role="presentation">
+                                                            </div>
+                                                            <!--AG-CHECKBOX-->
+                                                            <div
+                                                                class="ag-header-select-all ag-labeled ag-label-align-right ag-checkbox ag-hidden"
+                                                                role="presentation" ref="cbSelectAll">
+                                                                <label ref="eLabel" class="ag-hidden"></label>
+                                                                <div ref="eWrapper" class="ag-wrapper ag-input-wrapper"
+                                                                     role="presentation">
+                                                                    <input ref="eInput" type="checkbox"
+                                                                           class="ag-hidden">
+                                                                    <div>
+                                                                        <span
+                                                                            class="glyphicons glyphicons-unchecked sk-check-box"></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="ag-cell-label-container ag-header-cell-sorted-none"
+                                                                role="presentation">
+                                                                <span ref="eMenu"
+                                                                      class="ag-header-icon ag-header-cell-menu-button"
+                                                                      style="opacity: 0; transition: opacity 0.2s, border 0.2s;">
+                                                                    <span
+                                                                        class="ag-icon ag-icon-menu"
+                                                                        unselectable="on"></span>
+                                                                </span>
+                                                                <div ref="eLabel" class="ag-header-cell-label"
+                                                                     role="presentation">
+                                                                    <span ref="eSortAsc"
+                                                                          class="sk-col-orderned-asc ag-hidden"><span>
+                                                                    </span>
+                                                                    </span>
+                                                                    <span ref="eSortDesc"
+                                                                          class="sk-col-orderned-desc ag-hidden">
+                                                                        <span></span>
+                                                                    </span>
+                                                                    <span ref="eSortNone"
+                                                                          class="ag-header-icon ag-sort-none-icon ag-hidden">
+                                                                        <span
+                                                                            class="ag-icon ag-icon-none"
+                                                                            unselectable="on"></span>
+                                                                    </span>
+                                                                    <span
+                                                                        ref="eText"
+                                                                        class="ag-header-cell-text header-number"
+                                                                        role="columnheader"
+                                                                        style="width: calc(100% - 4px); display: block; font-size: [font_style];"
+                                                                        aria-colindex="4">Peso Líquido</span>
+                                                                    <span
+                                                                        ref="eFilter"
+                                                                        class="ag-header-icon ag-filter-icon ag-hidden">
+                                                                        <span class="ag-icon ag-icon-filter"
+                                                                              unselectable="on"></span>
+                                                                    </span>
+                                                                    <span ref="skFilter" class="ag-header-icon"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="ag-header-cell ag-header-cell-sortable"
+                                                             role="presentation" unselectable="on" col-id="TIPO"
+                                                             style="width: 100px; left: 500px;">
+                                                            <div ref="eResize" class="ag-header-cell-resize"
+                                                                 role="presentation"></div>
+                                                            <!--AG-CHECKBOX-->
+                                                            <div
+                                                                class="ag-header-select-all ag-labeled ag-label-align-right ag-checkbox ag-hidden"
+                                                                role="presentation" ref="cbSelectAll">
+                                                                <label ref="eLabel" class="ag-hidden"></label>
+                                                                <div ref="eWrapper" class="ag-wrapper ag-input-wrapper"
+                                                                     role="presentation">
+                                                                    <input ref="eInput" type="checkbox"
+                                                                           class="ag-hidden">
+                                                                    <div>
+                                                                        <span
+                                                                            class="glyphicons glyphicons-unchecked sk-check-box"></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="ag-cell-label-container ag-header-cell-sorted-none"
+                                                                role="presentation">
+                                                                <span ref="eMenu"
+                                                                      class="ag-header-icon ag-header-cell-menu-button"
+                                                                      style="opacity: 0; transition: opacity 0.2s, border 0.2s;">
+                                                                    <span class="ag-icon ag-icon-menu" unselectable="on"></span>
+                                                                </span>
+                                                                <div ref="eLabel" class="ag-header-cell-label"
+                                                                     role="presentation">
+                                                                    <span ref="eSortAsc" class="sk-col-orderned-asc ag-hidden">
+                                                                        <span></span>
+                                                                    </span>
+                                                                    <span ref="eSortDesc"
+                                                                          class="sk-col-orderned-desc ag-hidden">
+                                                                        <span></span>
+                                                                    </span>
+                                                                    <span ref="eSortNone"
+                                                                          class="ag-header-icon ag-sort-none-icon ag-hidden">
+                                                                        <span
+                                                                            class="ag-icon ag-icon-none"
+                                                                            unselectable="on"></span>
+                                                                    </span>
+                                                                    <span
+                                                                        ref="eText" class="ag-header-cell-text "
+                                                                        role="columnheader"
+                                                                        style="width: calc(100% - 4px); display: block; font-size: [font_style];"
+                                                                        aria-colindex="5">Tipo</span>
+                                                                    <span
+                                                                        ref="eFilter"
+                                                                        class="ag-header-icon ag-filter-icon ag-hidden">
+                                                                        <span
+                                                                            class="ag-icon ag-icon-filter"
+                                                                            unselectable="on"></span>
+                                                                    </span>
+                                                                    <span
+                                                                        ref="skFilter" class="ag-header-icon"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="ag-pinned-right-header ag-hidden" ref="ePinnedRightHeader"
+                                                 role="presentation"
+                                                 style="width: 0px; max-width: 0px; min-width: 0px;">
+                                                <div class="ag-header-row" role="row" aria-rowindex="1"
+                                                     style="top: 0px; height: 25px; width: 0px;"></div>
+                                            </div>
+                                        </div>
+                                        <div class="ag-floating-top" ref="eTop" role="presentation" unselectable="on"
+                                             style="min-height: 0px; height: 0px; display: none; overflow-y: hidden;">
+                                            <div class="ag-pinned-left-floating-top ag-hidden" ref="eLeftTop"
+                                                 role="presentation" unselectable="on"></div>
+                                            <div class="ag-floating-top-viewport" ref="eTopViewport" role="presentation"
+                                                 unselectable="on">
+                                                <div class="ag-floating-top-container" ref="eTopContainer"
+                                                     role="presentation" unselectable="on"
+                                                     style="width: 600px; transform: translateX(0px);"></div>
+                                            </div>
+                                            <div class="ag-pinned-right-floating-top ag-hidden" ref="eRightTop"
+                                                 role="presentation" unselectable="on"></div>
+                                            <div class="ag-floating-top-full-width-container ag-hidden"
+                                                 ref="eTopFullWidthContainer" role="presentation" unselectable="on">
+                                            </div>
+                                        </div>
+                                        <div class="ag-body-viewport ag-layout-normal ag-row-no-animation"
+                                             ref="eBodyViewport" role="presentation" unselectable="on">
+                                            <div class="ag-pinned-left-cols-container ag-hidden" ref="eLeftContainer"
+                                                 role="presentation" unselectable="on" style="height: 1px;"></div>
+                                            <div class="ag-center-cols-clipper" ref="eCenterColsClipper"
+                                                 role="presentation" unselectable="on" style="height: 1px;">
+                                                <div class="ag-center-cols-viewport" ref="eCenterViewport"
+                                                     role="presentation" unselectable="on"
+                                                     style="height: calc(100% + 0px);">
+                                                    <div class="ag-center-cols-container" ref="eCenterContainer"
+                                                         role="rowgroup" unselectable="on"
+                                                         style="width: 600px; height: 1px;"></div>
+                                                </div>
+                                            </div>
+                                            <div class="ag-pinned-right-cols-container ag-hidden" ref="eRightContainer"
+                                                 role="presentation" unselectable="on" style="height: 1px;"></div>
+                                            <div class="ag-full-width-container" ref="eFullWidthContainer"
+                                                 role="presentation" unselectable="on" style="height: 1px;"></div>
+                                        </div>
+                                        <div class="ag-floating-bottom" ref="eBottom" role="presentation"
+                                             unselectable="on"
+                                             style="min-height: 0px; height: 0px; display: none; overflow-y: hidden;">
+                                            <div class="ag-pinned-left-floating-bottom ag-hidden" ref="eLeftBottom"
+                                                 role="presentation" unselectable="on"></div>
+                                            <div class="ag-floating-bottom-viewport" ref="eBottomViewport"
+                                                 role="presentation" unselectable="on">
+                                                <div class="ag-floating-bottom-container" ref="eBottomContainer"
+                                                     role="presentation" unselectable="on"
+                                                     style="width: 600px; transform: translateX(0px);"></div>
+                                            </div>
+                                            <div class="ag-pinned-right-floating-bottom ag-hidden" ref="eRightBottom"
+                                                 role="presentation" unselectable="on"></div>
+                                            <div class="ag-floating-bottom-full-width-container ag-hidden"
+                                                 ref="eBottomFullWidthContainer" role="presentation" unselectable="on">
+                                            </div>
+                                        </div>
+                                        <div class="ag-body-horizontal-scroll" ref="eHorizontalScrollBody"
+                                             aria-hidden="true" style="height: 0px; max-height: 0px; min-height: 0px;">
+                                            <div class="ag-horizontal-left-spacer ag-scroller-corner"
+                                                 ref="eHorizontalLeftSpacer"
+                                                 style="width: 0px; max-width: 0px; min-width: 0px;"></div>
+                                            <div class="ag-body-horizontal-scroll-viewport"
+                                                 ref="eBodyHorizontalScrollViewport"
+                                                 style="height: 0px; max-height: 0px; min-height: 0px;">
+                                                <div class="ag-body-horizontal-scroll-container"
+                                                     ref="eBodyHorizontalScrollContainer"
+                                                     style="width: 600px; height: 0px; max-height: 0px; min-height: 0px;">
+                                                </div>
+                                            </div>
+                                            <div class="ag-horizontal-right-spacer ag-scroller-corner"
+                                                 ref="eHorizontalRightSpacer"
+                                                 style="width: 0px; max-width: 0px; min-width: 0px;"></div>
+                                        </div>
+                                        <!--AG-OVERLAY-WRAPPER-->
+                                        <div class="ag-overlay ag-hidden" aria-hidden="true" ref="overlayWrapper">
+                                            <div class="ag-overlay-panel">
+                                                <div class="ag-overlay-wrapper ag-layout-normal" ref="eOverlayWrapper">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--AG-SIDE-BAR-->
+                                    <div class="ag-side-bar ag-unselectable ag-hidden" ref="sideBar">
+                                        <!--AG-SIDE-BAR-BUTTONS-->
+                                        <div class="ag-side-buttons" ref="sideBarButtons"></div>
+                                    </div>
+                                </div>
+                                <!--AG-STATUS-BAR-->
+                                <div class="ag-status-bar" ref="statusBar">
+                                    <div ref="eStatusBarLeft" class="ag-status-bar-left"></div>
+                                    <div ref="eStatusBarCenter" class="ag-status-bar-center"></div>
+                                    <div ref="eStatusBarRight" class="ag-status-bar-right"></div>
+                                </div>
+                                <!--AG-PAGINATION-->
+                                <div class="ag-paging-panel ag-unselectable ag-hidden">
+                                    <span ref="eSummaryPanel" class="ag-paging-row-summary-panel">
+                                        <span ref="lbFirstRowOnPage"></span> to <span ref="lbLastRowOnPage"></span> of
+                                        <span ref="lbRecordCount"></span>
+                                    </span>
+                                    <span class="ag-paging-page-summary-panel">
+                                        <div ref="btFirst" class="ag-paging-button"><span class="ag-icon ag-icon-first"
+                                                                                          unselectable="on"></span>
+                                            <button type="button">Primeiro</button>
+                                        </div>
+                                        <div ref="btPrevious" class="ag-paging-button"><span
+                                            class="ag-icon ag-icon-previous" unselectable="on"></span>
+                                            <button type="button">Previous</button>
+                                        </div>
+                                        Page <span ref="lbCurrent"></span> of <span ref="lbTotal"></span>
+                                        <div ref="btNext" class="ag-paging-button"><span class="ag-icon ag-icon-next"
+                                                                                         unselectable="on"></span>
+                                            <button type="button">Next</button>
+                                        </div>
+                                        <div ref="btLast" class="ag-paging-button"><span class="ag-icon ag-icon-last"
+                                                                                         unselectable="on"></span>
+                                            <button type="button">Último</button>
+                                        </div>
+                                    </span>
+                                </div>
+                                <!--AG-WATERMARK-->
+                                <div class="ag-watermark ag-hidden">
+                                    <div ref="eLicenseTextRef" class="ag-watermark-text"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="ag-grid-container-15-3754" class="sk-tour-infinitt-scroll-ref"
+                             style="position: absolute; top: 50%; right: 0px; width: 15px"></div>
+                    </div>
+                    <div style="display: none">
+                        <sk-datagrid-custom-column sk-field-name="PESOBRUTO" sk-cell-formatter="ctrl.cellFormatter"
+                                                   class="ng-scope">
+                        </sk-datagrid-custom-column>
+                        <sk-datagrid-custom-column sk-field-name="PESOLIQ" sk-cell-formatter="ctrl.cellFormatter"
+                                                   class="ng-scope">
+                        </sk-datagrid-custom-column>
+                    </div>
+                </sk-datagrid>
+            </sk-hbox>
+        </sk-vbox>
+
+        <!-- Layout Rodape -->
+        <sk-vbox sk-margin-left="0.5%" layout="column" style="margin-left: 0.5%;">
+            <div class="well">
+                <sk-tabnavigator class="nav-abas ng-isolate-scope" sk-padding-right="0.3%" sk-margin-top="0.8%"
+                                 sk-selected-index="ctrl.abaSelectedIndex"
+                                 style="margin-top: 0.8%; padding-right: 0.3%; visibility: visible;">
+                    <div ng-if="!hideShowTabs" class="tab-controls tab-show-all-button ng-scope ng-isolate-scope"
+                         sk-sortable="ctrl.sortableConfigForPrev"><span class="popover-container ng-isolate-scope"
+                                                                        sk-popover=""
+                                                                        popover-template-url="components/tabnavigator/alltabspopover.tpl.html"
+                                                                        create-on-load="false"
+                                                                        properties="ctrl.getAllTabsPopoverProperties"
+                                                                        show-btn-apply="false"
+                                                                        show-btn-close="false" width="300" height="auto"
+                                                                        popover-placement="right"
+                                                                        always-load-properties="true"
+                                                                        popover-class="white-popover no-padding"
+                                                                        hide-on-scroll="true"
+                                                                        absolute="true"><sk-icon
+                        font-icon="more-windows" sk-i18n="" tooltip="Mostrar todas as abas"
+                        tooltip-placement="right" class="ng-isolate-scope"><span ng-disabled="!enabled"
+                                                                                 ng-show="visible !== false"
+                                                                                 ng-class="[prefixIcon, prefixIcon + '-' + fontIcon, skClass]"
+                                                                                 class="glyphicons glyphicons-more-windows"></span></sk-icon></span>
+                    </div>
+                    <div ng-style="ctrl.removeMargin()" class="tabnavigator-viewport"
+                         ng-class="{'sk-paginated': ctrl.shouldPaginate}">
+                        <div class="tabnavigator-wrapper"  style="left: 0px;">
+                            <sk-tabnavigator-item class="ng-scope ng-isolate-scope sk-tabnavigator-item sk-selected">
+                                <div flex="" layout="row" ng-class="{'no-padding-left': fontIcon}" ng-click="select()">
+                                    <div >
+                                        <sk-i18n sk-font-size="16px" class="ng-scope"
+                                                 style="font-size: 16px;">Totais
+                                        </sk-i18n>
+                                    </div>
+                                </div>
+                            </sk-tabnavigator-item>
+                        </div>
+                    </div>
+                </sk-tabnavigator>
+
+                <!-- Aba Totais-->
+                <sk-vbox ng-show="ctrl.abaSelectedIndex == 0" style="display:block; height:90px;" layout="column">
+                    <sk-hbox flex="" layout="row">
+                        <sk-vbox flex="85" layout="column">
+                            <sk-hbox flex="" gap="3" layout="row">
+                                <sk-hbox flex="" gap="3" sk-padding-top="8px" layout="row"
+                                         style="padding-top: 8px; margin-right: 1.5px;">
+                                    <sk-hbox flex="30" gap="3" layout="row" style="margin-right: 1.5px;">
+                                        <label class="form-input-label" sk-margin="0.5%" sk-font-size="16px"
+                                               sk-translate="" style="font-size: 16px; margin: 0.5%;">Peso total
+                                            (normal):</label>
+                                    </sk-hbox>
+                                    <sk-hbox flex="" gap="3" layout="row" style="margin-left: 1.5px;">
+                                        <input disabled="" type="text" ng-model="ctrl.inputPesoNormal"
+                                               class="inputs-align-right ng-pristine ng-untouched ng-valid ng-not-empty">
+                                    </sk-hbox>
+                                </sk-hbox>
+
+                                <sk-hbox flex="" gap="3" sk-padding-top="8px" layout="row"
+                                         style="padding-top: 8px; margin-left: 1.5px;">
+                                    <sk-hbox flex="30" gap="3" layout="row" style="margin-right: 1.5px;">
+                                        <label class="form-input-label" sk-margin="0.5%" sk-font-size="16px"
+                                               sk-translate="" style="font-size: 16px; margin: 0.5%;">Peso total
+                                            (perda):</label>
+                                    </sk-hbox>
+                                    <sk-hbox flex="" gap="3" layout="row" style="margin-left: 1.5px;">
+                                        <input disabled="" type="text" ng-model="ctrl.inputPesoPerda"
+                                               class="inputs-align-right ng-pristine ng-untouched ng-valid ng-not-empty">
+                                    </sk-hbox>
+                                </sk-hbox>
+                            </sk-hbox>
+                            <sk-hbox flex="" gap="3" class="margin-top-main" layout="row">
+                                <sk-hbox flex="" gap="3" sk-padding-top="8px" layout="row"
+                                         style="padding-top: 8px; margin-right: 1.5px;">
+                                    <sk-hbox flex="30" gap="3" layout="row" style="margin-right: 1.5px;">
+                                        <label class="form-input-label" sk-margin="0.5%" sk-font-size="16px"
+                                               sk-translate="" style="font-size: 16px; margin: 0.5%;">Volumes
+                                            (normal):</label>
+                                    </sk-hbox>
+                                    <sk-hbox flex="" gap="3" layout="row" style="margin-left: 1.5px;">
+                                        <input disabled="" type="text" ng-model="ctrl.inputVolumeNormal"
+                                               class="inputs-align-right ng-pristine ng-untouched ng-valid ng-not-empty">
+                                    </sk-hbox>
+                                </sk-hbox>
+
+                                <sk-hbox flex="" gap="3" sk-padding-top="8px" layout="row"
+                                         style="padding-top: 8px; margin-left: 1.5px;">
+                                    <sk-hbox flex="30" gap="3" layout="row" style="margin-right: 1.5px;">
+                                        <label class="form-input-label space-right-lote" sk-margin="0.5%"
+                                               sk-font-size="16px" sk-translate=""
+                                               style="font-size: 16px; margin: 0.5%;">Volumes (perda):</label>
+                                    </sk-hbox>
+                                    <sk-hbox flex="" gap="3" layout="row" style="margin-left: 1.5px;">
+                                        <input disabled="" type="text" ng-model="ctrl.inputVolumePerda"
+                                               class="inputs-align-right ng-pristine ng-untouched ng-valid ng-not-empty">
+                                    </sk-hbox>
+                                </sk-hbox>
+                            </sk-hbox>
+
+                        </sk-vbox>
+                        <sk-hbox flex="15" layout="row">
+                            <sk-hbox class="boxBalanca" flex="" layout="row">
+                                <sk-vbox flex="" style="align-items: center;" layout="column">
+                                    <label style="color: rgb(46, 60, 80); font-weight: 400; font-size: 16px;"
+                                           sk-font-size="16px" sk-translate="">Leitura Balança</label>
+                                    <label flex="" sk-font-size="26px" style="color: rgb(0, 116, 64); font-size: 26px;"
+                                           class="ng-binding">000.0000</label>
+                                </sk-vbox>
+                            </sk-hbox>
+                        </sk-hbox>
+                    </sk-hbox>
+                </sk-vbox>
+            </div>
+
+            <!-- Rodape -->
+            <div class="well">
+                <sk-hbox gap="3" layout="row">
+                    <sk-hbox flex="" gap="3" layout="row" style="margin-right: 1.5px;">
+                        <button ng-show="ctrl.isTelaPesagemMateriaisOP" class="btn fontsize-btn-main border-btn"
+                                sk-i18n="" ng-click="ctrl.eventBtnNovaOP()" tooltip-placement="bottom">
+                            [ F8 ] Nova OP
+                        </button>
+                    </sk-hbox>
+                    <sk-hbox flex="" gap="3" layout-align="center" layout="row"
+                             style="margin-right: 1.5px; margin-left: 1.5px;">
+                        <label ng-show="ctrl.tipoBuscaPeso == 'C' &amp;&amp; !ctrl.isTelaPesagemMateriaisOP"
+                               sk-margin="0.5%" sk-font-size="20px" sk-translate="" class="ng-binding ng-hide"
+                               style="font-size: 20px; margin: 0.5% 1.5px 0.5% 0.5%;"></label>
+
+                        <label
+                            ng-show="ctrl.isVisibleAguardandoPeso &amp;&amp; ctrl.tipoBuscaPeso == 'C' &amp;&amp; ctrl.isTelaPesagemMateriaisOP"
+                            sk-margin="0.5%" sk-font-size="20px" sk-translate="" class="ng-hide"
+                            style="font-size: 20px; margin: 0.5% 1.5px;">Aguardando Peso ...</label>
+                        <button ng-show="ctrl.tipoBuscaPeso == 'S' &amp;&amp; !ctrl.isClickBtnPesar"
+                                class="btn fontsize-btn-main border-btn ng-hide" sk-i18n=""
+                                ng-click="ctrl.eventBtnPesar()"
+                                tooltip-placement="bottom" style="margin-right: 1.5px; margin-left: 1.5px;">
+                            [ F6 ] Capturar Peso
+                        </button>
+
+                        <label ng-show="ctrl.tipoBuscaPeso == 'S' &amp;&amp; ctrl.isClickBtnPesar" sk-margin="0.5%"
+                               sk-font-size="20px" sk-translate="" class="ng-hide"
+                               style="font-size: 20px; margin: 0.5% 0.5% 0.5% 1.5px;">Buscando peso ...</label>
+                    </sk-hbox>
+                    <sk-hbox flex="" gap="3" layout-align="end end" layout="row" style="margin-left: 1.5px;">
+                        <button ng-disabled="!ctrl.isEnabledBtn" class="btn btn-brand fontsize-btn-main" sk-i18n=""
+                                ng-click="ctrl.eventBtnConfirmar()" tooltip-placement="bottom" disabled="disabled">
+                            [ F7 ] Confirmar
+                        </button>
+                    </sk-hbox>
+                </sk-hbox>
+            </div>
+        </sk-vbox>
+
+    </sk-vbox>
+</sk-application>
